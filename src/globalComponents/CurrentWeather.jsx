@@ -1,10 +1,28 @@
-import React, { useEffect } from 'react'
-import convertTime from '../utils/timeConvert'
+import React, { useEffect, useState } from 'react'  
+import { convertTime, formatUTCToBangladeshTime } from '../utils/time'
+import LiveClock from './LiveClock'
+import { fetchTodayForecast } from '../utils/fetchWeather'
+import TodayForcast from './TodayForcast'
 
-export default function CurrentWeather({weather ,icon ,name , country , temp , fellsLike , maxtemp , mintemp , pressure , humidity , sunrise , sunset}) {
+export default function CurrentWeather({   lat , lon , updated ,weather ,icon ,name , country , temp , fellsLike , maxtemp , mintemp , pressure , humidity , sunrise , sunset , windspeed}) {
+
+  const [dailforcast , setDailforcast] =  useState(null)
+
+  useEffect(() => {
+    async  function fetchcityData() {
+
+      if(!lat || !lon  )return
+
+      const dailydata =  await fetchTodayForecast(lat , lon)
+      setDailforcast(dailydata); 
+    }
+    fetchcityData()
+  }, [lat , lon])
+ 
+  
 
  
-
+  
 
 
   return (
@@ -13,7 +31,9 @@ export default function CurrentWeather({weather ,icon ,name , country , temp , f
           <div className="flex mb-4 justify-between items-center">
             <div>
               <h5 className="mb-0 font-medium text-xl">{name} , {country}</h5>
-              <h6 className="mb-0">April 04 2021</h6>
+              <h6 className="mb-0">Updated: {formatUTCToBangladeshTime(updated)}</h6>
+              <h6 className="mb-0 flex gap-1 ">Now: <LiveClock/></h6>
+              
               <div className="flex items-center ">
                 <p>{weather}</p>
                 <img src={`https://openweathermap.org/img/wn/${icon}.png`} alt="img" className='' />
@@ -21,7 +41,8 @@ export default function CurrentWeather({weather ,icon ,name , country , temp , f
             </div>
             <div className="text-right">
               <h3 className="font-bold text-4xl mb-0">
-                <span>{Math.round(temp)}°</span>
+                <span>{Math.round(temp)}°C</span> <br />
+                <span className='mt-1'>{(Math.round(temp) * 9/5) + 32}°F</span>
               </h3>
             </div>
           </div>
@@ -50,66 +71,33 @@ export default function CurrentWeather({weather ,icon ,name , country , temp , f
                 <span>Sunset</span>
                 <small className="px-2 inline-block">{convertTime(sunset)}</small>
               </div> 
+              <div className="flex mb-2 justify-between items-center bg-gray-100/10 p-1 rounded-[5px]">
+                <span>Humidity</span>
+                <small className="px-2 inline-block">{humidity}%</small>
+              </div> 
+              <div className="flex mb-2 justify-between items-center bg-gray-100/10 p-1 rounded-[5px]">
+                <span>Wind</span>
+                <small className="px-2 inline-block">{windspeed} km/h</small>
+              </div> 
           </div>
         </div>
         <div className="divider table mx-2 text-center bg-transparent whitespace-nowrap">
           <span className="inline-block px-3">
-            <small>Forecast</small>
+            <p>Today Forecast</p>
           </span>
         </div>
-        <div className="px-6 py-6 relative">
+        <div className="p-5 relative">
           <div
-            className="text-center justify-between items-center flex"
-            style={{ flexFlow: "initial" }}
-          >
-            <div className="text-center mb-0 flex items-center justify-center flex-col">
-              <span className="block my-1">Sun</span>
-              <img
-                src="https://i.imgur.com/ffgW9JQ.png"
-                className="block w-8 h-8"
-              />
-              <span className="block my-1">38.3°</span>
-            </div>
-            <div className="text-center mb-0 flex items-center justify-center flex-col">
-              <span className="block my-1">Mon</span>
-              <img
-                src="https://i.imgur.com/BQbzoKt.png"
-                className="block w-8 h-8"
-              />
-              <span className="block my-1">39.9°</span>
-            </div>
-            <div className="text-center mb-0 flex items-center justify-center flex-col">
-              <span className="block my-1">Mon</span>
-              <img
-                src="https://i.imgur.com/BQbzoKt.png"
-                className="block w-8 h-8"
-              />
-              <span className="block my-1">40.1°</span>
-            </div>
-            <div className="text-center mb-0 flex items-center justify-center flex-col">
-              <span className="block my-1">Mon</span>
-              <img
-                src="https://i.imgur.com/ffgW9JQ.png"
-                className="block w-8 h-8"
-              />
-              <span className="block my-1">41.5°</span>
-            </div>
-            <div className="text-center mb-0 flex items-center justify-center flex-col">
-              <span className="block my-1">Mon</span>
-              <img
-                src="https://i.imgur.com/ffgW9JQ.png"
-                className="block w-8 h-8"
-              />
-              <span className="block my-1">40.1°</span>
-            </div>
-            <div className="text-center mb-0 flex items-center justify-center flex-col">
-              <span className="block my-1">Mon</span>
-              <img
-                src="https://i.imgur.com/BQbzoKt.png"
-                className="block w-8 h-8"
-              />
-              <span className="block my-1">38°</span>
-            </div>
+            className=" gap-3 items-center flex"
+             
+          > 
+
+           {dailforcast &&  dailforcast.length > 0 && dailforcast.map((item , index) => (
+             <TodayForcast key={index} data={item} />
+           ))
+           }
+
+
           </div>
         </div>
       </div> 

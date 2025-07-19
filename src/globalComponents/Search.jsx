@@ -2,17 +2,23 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import { CgClose } from "react-icons/cg";
 import { BsSearch } from "react-icons/bs";
+import { useDispatch } from 'react-redux';
 export default function Search({className}) {
 
   const [searchVal , setSearchVal] = useState('');
   const [isSearchHistoryOpen , setIsSearchHistoryOpen] = useState(false);
   const SearchRef = useRef()
   const [searchHistory , setSearchHistory] = useState([])
+  const dispatch = useDispatch()
+  
 
   const handleSearch = (e) => { 
 
     e.stopPropagation()  
     setIsSearchHistoryOpen(false)
+    dispatch({type:'weather/city' , payload: searchVal})
+    localStorage.setItem("currentCity", JSON.stringify("dhaka"));
+
     
     if (!searchVal.trim()) return;
     if(localStorage.getItem('searchHistory')){
@@ -59,6 +65,12 @@ export default function Search({className}) {
       setSearchHistory(JSON.parse(localStorage.getItem('searchHistory')))
     }
   }
+
+  const handlesetSearch = (item)=>{
+    dispatch({type:'weather/city' , payload: item})
+    setIsSearchHistoryOpen(false)
+
+  }
    
   
 
@@ -77,7 +89,7 @@ export default function Search({className}) {
 
 
         {isSearchHistoryOpen && 
-        <div className="absolute top-13 left-0 w-full p-3 bg-gray-600 shadow-lg rounded-[10px] z-10 flex  "> 
+        <div className=" border border-white/10 absolute top-13 left-0 w-full p-3 bg-gray-600 shadow-lg rounded-[10px] z-10 flex  "> 
 
           <div className="flex-1">
             <h2 className="text-white font-semibold text-sm ">Avoilable Locations</h2>
@@ -94,7 +106,7 @@ w
             <ul className='flex flex-col-reverse gap-1'>
               {searchHistory.map((item , index) => ( 
                 <li key={item} className='text-white flex items-center  py-2 px-5 font-semibold bg-[#394049] rounded-[10px] cursor-pointer gap-2  '>
-                  <p  onClick={() => setSearchVal(item)} className="flex-1">{item}</p>
+                  <p  onClick={() => handlesetSearch(item) } className="flex-1">{item}</p>
                   <button onClick={(e) => handleRemoveItem(e,item)}  type="button" className=' h-fit p-1.5 bg-[#0b131e] text-white rounded-[10px]  cursor-pointer   '><CgClose /></button>
                 </li>
               ))}
