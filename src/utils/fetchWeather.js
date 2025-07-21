@@ -2,13 +2,15 @@
 
 // fetch weather by city
  const fetchWeatherByCity = async (city) => {
+  console.log(city);
+  
     
     try {
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${import.meta.env.VITE_API_KEY}&units=metric`);
         const data = await response.json();  
         return data; 
     } catch (error) {
-        console.error('Error fetching weather:', error);
+        console.log('Error fetching weather:', error);
     }
 
 }
@@ -23,10 +25,10 @@ const fetchTodayForecast = async (lat, lon) => {
       );
       const data = await response.json();
   
-      // আজকের তারিখ বের করি
+      // today date in ms
       const today = new Date().toISOString().split("T")[0];
   
-      // আজকের ফোরকাস্ট ফিল্টার করি
+      // today forcast
       const todayForecast = data.list.filter((item) =>
         item.dt_txt.startsWith(today)
       );
@@ -39,5 +41,19 @@ const fetchTodayForecast = async (lat, lon) => {
   
 
 
+  const fetchSevenDayForcast = async (lat, lon) => {
+    try {
+      const response = await fetch(
+        `https://pro.openweathermap.org/data/2.5/forecast/hourly?lat=${lat}&lon=${lon}&cnt=7&appid=${import.meta.env.VITE_API_KEY}&units=metric`
+      );
+      const data = await response.json();
+  
+      return data;
+    } catch (error) {
+      console.error("Error fetching forecast:", error);
+    }
+  };
 
-  export {fetchWeatherByCity , fetchTodayForecast}
+
+
+  export {fetchWeatherByCity , fetchTodayForecast , fetchSevenDayForcast }

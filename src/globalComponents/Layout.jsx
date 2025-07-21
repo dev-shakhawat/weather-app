@@ -5,7 +5,7 @@ import Search from './Search'
 
 export default function Layout() {
   return (
-    <div className='flex bg-[#0b131e] p-3 gap-3  '>
+    <div className='md:flex bg-[#0b131e] p-3 gap-3  '>
 
       {/* side bar */}
       <SideBar className={`flex-1`}/>

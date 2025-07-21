@@ -26,8 +26,8 @@ export default function CurrentWeather({   lat , lon , updated ,weather ,icon ,n
 
 
   return (
-      <div className="bg-gray-900 text-white relative min-w-0 break-words rounded-lg overflow-hidden shadow-sm mb-4 w-full   dark:bg-gray-600 ">
-        <div className="px-6 py-6 relative">
+      <div className="bg-gray-900 text-white relative min-w-0 break-words rounded-lg overflow-hidden shadow-sm   w-full   dark:bg-gray-600 ">
+        <div className="p-6 relative">
           <div className="flex mb-4 justify-between items-center">
             <div>
               <h5 className="mb-0 font-medium text-xl">{name} , {country}</h5>
@@ -40,7 +40,7 @@ export default function CurrentWeather({   lat , lon , updated ,weather ,icon ,n
               </div>
             </div>
             <div className="text-right">
-              <h3 className="font-bold text-4xl mb-0">
+              <h3 className="font-bold md:text-4xl text-2xl mb-0">
                 <span>{Math.round(temp)}°C</span> <br />
                 <span className='mt-1'>{(Math.round(temp) * 9/5) + 32}°F</span>
               </h3>
@@ -81,14 +81,11 @@ export default function CurrentWeather({   lat , lon , updated ,weather ,icon ,n
               </div> 
           </div>
         </div>
-        <div className="divider table mx-2 text-center bg-transparent whitespace-nowrap">
-          <span className="inline-block px-3">
-            <p>Today Forecast</p>
-          </span>
-        </div>
-        <div className="p-5 relative">
+        <div className="divider table mx-2 text-center bg-transparent whitespace-nowrap"> 
+            <p className="inline-block px-3">Today Forecast</p> 
+        </div> 
           <div
-            className=" gap-3 items-center flex"
+            className={`${dailforcast?.length >= 3 ? "grid md:grid-cols-3 " : "flex items-center" } gap-3 p-3   `}
              
           > 
 
@@ -98,8 +95,7 @@ export default function CurrentWeather({   lat , lon , updated ,weather ,icon ,n
            }
 
 
-          </div>
-        </div>
+          </div> 
       </div> 
 
   )

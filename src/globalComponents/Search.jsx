@@ -17,7 +17,7 @@ export default function Search({className}) {
     e.stopPropagation()  
     setIsSearchHistoryOpen(false)
     dispatch({type:'weather/city' , payload: searchVal})
-    localStorage.setItem("currentCity", JSON.stringify("dhaka"));
+    localStorage.setItem("currentCity", searchVal);
 
     
     if (!searchVal.trim()) return;
@@ -66,16 +66,16 @@ export default function Search({className}) {
     }
   }
 
-  const handlesetSearch = (item)=>{
+  const handlesetSearch = (e,item)=>{
+    e.stopPropagation();
     dispatch({type:'weather/city' , payload: item})
     setIsSearchHistoryOpen(false)
-
   }
+    
    
-  
 
   return (
-    <div ref={SearchRef} onClick={handleOpenSearchHistory} className={`${className} bg-gray-600 rounded-[10px] relative    `}>
+    <div ref={SearchRef} onClick={handleOpenSearchHistory} className={`${className} bg-gray-600 rounded-[10px] relative mt-1 md:mt-0    `}>
         <input   value={searchVal} onChange={(e) => setSearchVal(e.target.value)} type="text" className='w-full py-3 outline-0 px-2 text-white font-semibold text-sm     ' placeholder='Search for weather'/>
 
         {searchVal && 
@@ -91,13 +91,6 @@ export default function Search({className}) {
         {isSearchHistoryOpen && 
         <div className=" border border-white/10 absolute top-13 left-0 w-full p-3 bg-gray-600 shadow-lg rounded-[10px] z-10 flex  "> 
 
-          <div className="flex-1">
-            <h2 className="text-white font-semibold text-sm ">Avoilable Locations</h2>
-            <ul className='mt-2'>
-              <li></li>
-            </ul>
-w
-          </div>
           
           {searchHistory.length > 0 && 
           <div className=" flex-2">
@@ -106,7 +99,7 @@ w
             <ul className='flex flex-col-reverse gap-1'>
               {searchHistory.map((item , index) => ( 
                 <li key={item} className='text-white flex items-center  py-2 px-5 font-semibold bg-[#394049] rounded-[10px] cursor-pointer gap-2  '>
-                  <p  onClick={() => handlesetSearch(item) } className="flex-1">{item}</p>
+                  <p  onClick={(e) => handlesetSearch(e,item) } className="flex-1">{item}</p>
                   <button onClick={(e) => handleRemoveItem(e,item)}  type="button" className=' h-fit p-1.5 bg-[#0b131e] text-white rounded-[10px]  cursor-pointer   '><CgClose /></button>
                 </li>
               ))}
