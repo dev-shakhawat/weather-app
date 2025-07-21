@@ -12,7 +12,7 @@ export default function SideBar({className}) {
 
     const location = useLocation();
   return (
-    <div className={`${className} bg-gray-600 rounded-[10px] h-inherit   `}  >
+    <div className={`${className} bg-gray-600 rounded-[5px] md:rounded-[10px] h-inherit   `}  >
         
         {/* logo */}
         <img src="/umbrella.png" alt="umbrella" className='md:w-[50%] w-[30px] mx-auto md:mt-10 pt-4 md:pt-0   ' />

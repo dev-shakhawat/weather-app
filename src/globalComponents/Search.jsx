@@ -75,7 +75,7 @@ export default function Search({className}) {
    
 
   return (
-    <div ref={SearchRef} onClick={handleOpenSearchHistory} className={`${className} bg-gray-600 rounded-[10px] relative mt-1 md:mt-0    `}>
+    <div ref={SearchRef} onClick={handleOpenSearchHistory} className={`${className} bg-gray-600 md:rounded-[10px] rounded-[5px] relative mt-1 md:mt-0    `}>
         <input   value={searchVal} onChange={(e) => setSearchVal(e.target.value)} type="text" className='w-full py-3 outline-0 px-2 text-white font-semibold text-sm     ' placeholder='Search for weather'/>
 
         {searchVal && 
@@ -89,8 +89,7 @@ export default function Search({className}) {
 
 
         {isSearchHistoryOpen && 
-        <div className=" border border-white/10 absolute top-13 left-0 w-full p-3 bg-gray-600 shadow-lg rounded-[10px] z-10 flex  "> 
-
+        <div className=" border border-white/10 absolute top-11 left-0 w-full md:p-3 p-1.5 bg-gray-600 shadow-lg rounded-[10px] z-10 flex  "> 
           
           {searchHistory.length > 0 ? 
           <div className=" flex-2">
@@ -98,9 +97,9 @@ export default function Search({className}) {
 
             <ul className='flex flex-col-reverse gap-1 max-h-[350px] overflow-y-scroll  '>
               {searchHistory.map((item , index) => ( 
-                <li key={item} className='text-white flex items-center  py-2 px-5 font-semibold bg-[#394049] rounded-[10px] cursor-pointer gap-2  '>
+                <li key={item} className='text-white flex items-center  py-1 md:py-2 px-2 md:px-5 font-semibold bg-[#394049] rounded-[5px] md:rounded-[10px] cursor-pointer gap-2  '>
                   <p  onClick={(e) => handlesetSearch(e,item) } className="flex-1">{item}</p>
-                  <button onClick={(e) => handleRemoveItem(e,item)}  type="button" className=' h-fit p-1.5 bg-[#0b131e] text-white rounded-[10px]  cursor-pointer   '><CgClose /></button>
+                  <button onClick={(e) => handleRemoveItem(e,item)}  type="button" className=' h-fit p-1.5 bg-[#0b131e] text-white rounded-[5px] md:rounded-[10px]  cursor-pointer   '><CgClose /></button>
                 </li>
               ))}
             </ul>
