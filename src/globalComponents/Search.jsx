@@ -92,11 +92,11 @@ export default function Search({className}) {
         <div className=" border border-white/10 absolute top-13 left-0 w-full p-3 bg-gray-600 shadow-lg rounded-[10px] z-10 flex  "> 
 
           
-          {searchHistory.length > 0 && 
+          {searchHistory.length > 0 ? 
           <div className=" flex-2">
             <h2 className="text-white font-semibold text-sm ">Search History</h2>
 
-            <ul className='flex flex-col-reverse gap-1'>
+            <ul className='flex flex-col-reverse gap-1 max-h-[350px] overflow-y-scroll  '>
               {searchHistory.map((item , index) => ( 
                 <li key={item} className='text-white flex items-center  py-2 px-5 font-semibold bg-[#394049] rounded-[10px] cursor-pointer gap-2  '>
                   <p  onClick={(e) => handlesetSearch(e,item) } className="flex-1">{item}</p>
@@ -104,7 +104,12 @@ export default function Search({className}) {
                 </li>
               ))}
             </ul>
-          </div>}
+          </div>
+          :
+          <div className=" flex-2">
+            <h2 className="text-white font-semibold text-sm ">No Search History</h2>
+          </div>
+          }
         </div>}
 
     </div>
