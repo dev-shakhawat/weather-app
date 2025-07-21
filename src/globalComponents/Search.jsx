@@ -76,14 +76,14 @@ export default function Search({className}) {
 
   return (
     <div ref={SearchRef} onClick={handleOpenSearchHistory} className={`${className} bg-gray-600 md:rounded-[10px] rounded-[5px] relative mt-1 md:mt-0    `}>
-        <input   value={searchVal} onChange={(e) => setSearchVal(e.target.value)} type="text" className='w-full py-3 outline-0 px-2 text-white font-semibold text-sm     ' placeholder='Search for weather'/>
+        <input onKeyDown={(e) => { if (e.key === "Enter") { handleSearch(e); } }}  value={searchVal} onChange={(e) => setSearchVal(e.target.value)} type="text" className='w-full py-3 outline-0 px-2 text-white font-semibold text-sm     ' placeholder='Search for weather'/>
 
         {searchVal && 
         <div className="absolute top-[5px] right-2   flex gap-2 w-fit h-full  ">
 
-          <button onClick={()=> setSearchVal('')} type="button" className=' h-fit p-2 bg-[#0b131e] text-white rounded-[10px] text-xl cursor-pointer   '><CgClose /></button>
+          <button onClick={()=> setSearchVal('')} type="button" className=' h-fit p-1.5 bg-[#0b131e] text-white rounded-[5px] md:rounded-[10px]  cursor-pointer    '><CgClose /></button>
 
-          <button onClick={(e)=> handleSearch(e)} type="button" className=' h-fit p-2 bg-[#0b131e] text-white rounded-[10px] text-lg cursor-pointer   '><BsSearch /></button>
+          <button onClick={(e)=> handleSearch(e)} type="button" className=' h-fit p-1.5 bg-[#0b131e] text-white rounded-[5px] md:rounded-[10px]  cursor-pointer  '><BsSearch /></button>
 
         </div>}
 
